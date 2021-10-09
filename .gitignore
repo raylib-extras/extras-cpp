@@ -348,3 +348,15 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/build/raylib.vcxproj
+/build/raylib.vcxproj.filters
+/build/rlFPCamera.vcxproj
+/build/rlFPCamera.vcxproj.filters
+/build/rlTPCamera.vcxproj
+/build/rlTPCamera.vcxproj.filters
+/cameras/rlFPCamera/samples/rlFPCamera_sample.vcxproj
+/cameras/rlFPCamera/samples/rlFPCamera_sample.vcxproj.filters
+/cameras/rlTPCamera/samples/rlTPCamera_sample.vcxproj
+/cameras/rlTPCamera/samples/rlTPCamera_sample.vcxproj.filters
+/extras.sln
+/premake5.exe
