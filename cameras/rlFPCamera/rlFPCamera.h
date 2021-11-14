@@ -50,6 +50,10 @@ public:
     Vector3 GetCameraPosition() const;
     void SetCameraPosition(const Vector3&& pos);
 
+    Ray GetViewRay() const;
+    Vector3 GetForwardVector() const;
+    Vector3 GetFowardGroundVector() const;
+
     inline Vector2 GetViewAngles() const { return Vector2Scale(Angle, 1.0f / DEG2RAD); }
 
     typedef enum

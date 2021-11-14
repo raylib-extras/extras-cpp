@@ -51,6 +51,15 @@ public:
 	// update the camera for the current frame
 	void Update();
 
+    float GetFOVX() const;
+    Vector3 GetCameraPosition() const;
+    void SetCameraPosition(const Vector3&& pos);
+
+    Ray GetViewRay() const;
+    Vector3 GetForwardVector() const;
+    Vector3 GetFowardGroundVector() const;
+
+
 	// start drawing using the camera, with near/far plane support
 	void BeginMode3D();
 

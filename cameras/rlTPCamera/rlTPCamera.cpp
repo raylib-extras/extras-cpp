@@ -116,6 +116,39 @@ float rlTPCamera::GetSpeedForAxis(CameraControls axis, float speed)
     return 0.0f;
 }
 
+float rlTPCamera::GetFOVX() const
+{
+    return FOV.x;
+}
+
+Vector3 rlTPCamera::GetCameraPosition() const
+{
+    return CameraPosition;
+}
+
+void rlTPCamera::SetCameraPosition(const Vector3&& pos)
+{
+    CameraPosition = pos;
+    Vector3 forward = Vector3Subtract(ViewCamera.target, ViewCamera.position);
+    ViewCamera.position = CameraPosition;
+    ViewCamera.target = Vector3Add(CameraPosition, forward);
+}
+
+Ray rlTPCamera::GetViewRay() const
+{
+    return Ray{ ViewCamera.position, GetForwardVector() };
+}
+
+Vector3 rlTPCamera::GetForwardVector() const
+{
+    return Vector3Normalize(Vector3Subtract(ViewCamera.target, ViewCamera.position));
+}
+
+Vector3 rlTPCamera::GetFowardGroundVector() const
+{
+    return ViewForward;
+}
+
 void rlTPCamera::Update()
 {
     if (IsWindowResized())

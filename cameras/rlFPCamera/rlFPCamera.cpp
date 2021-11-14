@@ -134,6 +134,25 @@ void rlFPCamera::EndMode3D()
     ::EndMode3D();
 }
 
+Ray rlFPCamera::GetViewRay() const
+{
+    return Ray{ViewCamera.position, GetForwardVector() };
+}
+
+Vector3 rlFPCamera::GetForwardVector() const
+{
+    return Vector3Normalize(Vector3Subtract(ViewCamera.target, ViewCamera.position));
+}
+
+Vector3 rlFPCamera::GetFowardGroundVector() const
+{
+    Vector3 forward = Vector3Subtract(ViewCamera.target, ViewCamera.position);
+    forward.y = 0;
+    forward = Vector3Normalize(forward);
+
+    return forward;
+}
+
 void rlFPCamera::Update()
 {
     if (HideCursor && IsWindowFocused() != Focused && (UseMouseX || UseMouseY))
