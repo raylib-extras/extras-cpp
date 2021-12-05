@@ -59,7 +59,6 @@ public:
     Vector3 GetForwardVector() const;
     Vector3 GetFowardGroundVector() const;
 
-
 	// start drawing using the camera, with near/far plane support
 	void BeginMode3D();
 

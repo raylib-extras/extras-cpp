@@ -171,8 +171,7 @@ void rlTPCamera::Update()
     }
 
     // Mouse movement detection
-    Vector2 mousePositionDelta = { 0.0f, 0.0f };
-    Vector2 mousePosition = GetMousePosition();
+    Vector2 mousePositionDelta = GetMouseDelta();
     float mouseWheelMove = GetMouseWheelMove();
 
     // Keys input detection
@@ -183,10 +182,6 @@ void rlTPCamera::Update()
                                       GetSpeedForAxis(CameraControls::MOVE_UP,MoveSpeed.y),
                                       GetSpeedForAxis(CameraControls::MOVE_DOWN,MoveSpeed.y) };
 
-    mousePositionDelta.x = mousePosition.x - PreviousMousePosition.x;
-    mousePositionDelta.y = mousePosition.y - PreviousMousePosition.y;
-
-    PreviousMousePosition = mousePosition;
 
     bool useMouse = UseMouse && (UseMouseButton < 0 || IsMouseButtonDown(UseMouseButton));
 

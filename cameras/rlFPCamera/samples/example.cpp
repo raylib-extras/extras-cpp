@@ -24,6 +24,8 @@
 #include "rlFPCamera.h"
 #include "rlgl.h"
 
+#pragma comment(lib, "raylib.lib")
+
 int main(int argc, char* argv[])
 {
 	// Initialization

@@ -58,7 +58,6 @@ void rlFPCamera::Setup(float fovY, Vector3&& position)
     TargetDistance = 1;
 
     ViewResized();
-    PreviousMousePosition = GetMousePosition();
 }
 
 void rlFPCamera::ViewResized()
@@ -161,7 +160,6 @@ void rlFPCamera::Update()
         if (Focused)
         {
             DisableCursor();
-            PreviousMousePosition = GetMousePosition(); // so there is no jump on focus
         }
         else
         {
@@ -170,8 +168,7 @@ void rlFPCamera::Update()
     }
 
     // Mouse movement detection
-    Vector2 mousePositionDelta = { 0.0f, 0.0f };
-    Vector2 mousePosition = GetMousePosition();
+    Vector2 mousePositionDelta = GetMouseDelta();
     float mouseWheelMove = GetMouseWheelMove();
 
     // Keys input detection
@@ -217,11 +214,6 @@ void rlFPCamera::Update()
             direction[MOVE_RIGHT] = 0;
         }
     }
-
-    mousePositionDelta.x = mousePosition.x - PreviousMousePosition.x;
-    mousePositionDelta.y = mousePosition.y - PreviousMousePosition.y;
-
-    PreviousMousePosition = mousePosition;
 
     Vector3 forward = Vector3Subtract(ViewCamera.target, ViewCamera.position);
     forward.y = 0;
