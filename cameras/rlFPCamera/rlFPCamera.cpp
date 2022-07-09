@@ -51,6 +51,9 @@ void rlFPCamera::Setup(float fovY, Vector3&& position)
     ViewCamera.fovy = fovY;
     ViewCamera.projection = CAMERA_PERSPECTIVE;
 
+    TargetSize.x = GetScreenWidth();
+    TargetSize.y = GetScreenHeight();
+
     Focused = IsWindowFocused();
     if (HideCursor && Focused && (UseMouseX || UseMouseY))
         DisableCursor();
@@ -62,13 +65,22 @@ void rlFPCamera::Setup(float fovY, Vector3&& position)
 
 void rlFPCamera::ViewResized()
 {
-    float width = (float)GetScreenWidth();
-    float height = (float)GetScreenHeight();
+    ViewResized((float)GetScreenWidth(), (float)GetScreenHeight());
+}
 
+void rlFPCamera::ViewResized(float w, float h)
+{
+    TargetSize.x = w;
+    TargetSize.y = h;
     FOV.y = ViewCamera.fovy;
 
-    if (height != 0)
-        FOV.x = FOV.y * (width / height);
+    if (h != 0)
+        FOV.x = FOV.y * (w / h);
+}
+
+void rlFPCamera::ViewResized(const RenderTexture& target)
+{
+    ViewResized((float)target.texture.width, (float)target.texture.height);
 }
 
 float rlFPCamera::GetSpeedForAxis(CameraControls axis, float speed)
@@ -92,7 +104,7 @@ float rlFPCamera::GetSpeedForAxis(CameraControls axis, float speed)
 
 void rlFPCamera::BeginMode3D()
 {
-    float aspect = (float)GetScreenWidth() / (float)GetScreenHeight();
+    float aspect = TargetSize.x / TargetSize.y;
 
     rlDrawRenderBatchActive();			// Draw Buffers (Only OpenGL 3+ and ES2)
     rlMatrixMode(RL_PROJECTION);        // Switch to projection matrix
@@ -329,4 +341,60 @@ void rlFPCamera::SetCameraPosition(const Vector3&& pos)
     Vector3 forward = Vector3Subtract(ViewCamera.target, ViewCamera.position);
     ViewCamera.position = CameraPosition;
     ViewCamera.target = Vector3Add(CameraPosition, forward);
+}
+
+Ray rlFPCamera::GetMouseRay(Vector2 mouse) const
+{
+    Ray ray = { 0 };
+
+    // Calculate normalized device coordinates
+    // NOTE: y value is negative
+    float x = (2.0f * mouse.x) / TargetSize.x - 1.0f;
+    float y = 1.0f - (2.0f * mouse.y) / (float)TargetSize.y;
+    float z = 1.0f;
+
+    // Store values in a vector
+    Vector3 deviceCoords = { x, y, z };
+
+    // Calculate view matrix from camera look at
+    Matrix matView = MatrixLookAt(ViewCamera.position, ViewCamera.target, ViewCamera.up);
+
+    Matrix matProj = MatrixIdentity();
+
+    if (ViewCamera.projection == CAMERA_PERSPECTIVE)
+    {
+        // Calculate projection matrix from perspective
+        matProj = MatrixPerspective(ViewCamera.fovy * DEG2RAD, ((double)TargetSize.x / (double)TargetSize.y), RL_CULL_DISTANCE_NEAR, RL_CULL_DISTANCE_FAR);
+    }
+    else if (ViewCamera.projection == CAMERA_ORTHOGRAPHIC)
+    {
+        float aspect = TargetSize.x / TargetSize.y;
+        double top = ViewCamera.fovy / 2.0;
+        double right = top * aspect;
+
+        // Calculate projection matrix from orthographic
+        matProj = MatrixOrtho(-right, right, -top, top, 0.01, 1000.0);
+    }
+
+    // Unproject far/near points
+    Vector3 nearPoint = Vector3Unproject(Vector3{ deviceCoords.x, deviceCoords.y, 0.0f }, matProj, matView);
+    Vector3 farPoint = Vector3Unproject(Vector3{ deviceCoords.x, deviceCoords.y, 1.0f }, matProj, matView);
+
+    // Unproject the mouse cursor in the near plane.
+    // We need this as the source position because orthographic projects, compared to perspect doesn't have a
+    // convergence point, meaning that the "eye" of the camera is more like a plane than a point.
+    Vector3 cameraPlanePointerPos = Vector3Unproject(Vector3{ deviceCoords.x, deviceCoords.y, -1.0f }, matProj, matView);
+
+    // Calculate normalized direction vector
+    Vector3 direction = Vector3Normalize(Vector3Subtract(farPoint, nearPoint));
+
+    if (ViewCamera.projection == CAMERA_PERSPECTIVE)
+        ray.position = ViewCamera.position;
+    else if (ViewCamera.projection == CAMERA_ORTHOGRAPHIC) 
+        ray.position = cameraPlanePointerPos;
+
+    // Apply calculated vectors to ray
+    ray.direction = direction;
+
+    return ray;
 }

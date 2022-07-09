@@ -43,6 +43,8 @@ public:
 
     void Setup(float fovY, Vector3&& position);
     void ViewResized();
+    void ViewResized(float w, float h);
+    void ViewResized(const RenderTexture& target);
 
     void Update();
 
@@ -51,6 +53,7 @@ public:
     void SetCameraPosition(const Vector3&& pos);
 
     Ray GetViewRay() const;
+    Ray GetMouseRay(Vector2 mouse) const;
     Vector3 GetForwardVector() const;
     Vector3 GetFowardGroundVector() const;
 
@@ -130,6 +133,8 @@ protected:
     Vector2 Angle = { 0,0 };                // Camera angle in plane XZ
 
     float CurrentBobble = 0;
+
+    Vector2 TargetSize = { 0,0 };
 
     float GetSpeedForAxis(CameraControls axis, float speed);
 };
