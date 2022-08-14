@@ -277,12 +277,12 @@ void rlFPCamera::Update()
     if (turnRotation != 0)
         Angle.x -= turnRotation * DEG2RAD;
     else if (UseMouseX && Focused)
-        Angle.x += (mousePositionDelta.x / -MouseSensitivity);
+        Angle.x += (mousePositionDelta.x / MouseSensitivity);
 
     if (tiltRotation)
         Angle.y += tiltRotation * DEG2RAD;
     else if (UseMouseY && Focused)
-        Angle.y += (mousePositionDelta.y / -MouseSensitivity);
+        Angle.y += (mousePositionDelta.y / MouseSensitivity);
 
     // Angle clamp
     if (Angle.y < MinimumViewY * DEG2RAD)
@@ -291,7 +291,7 @@ void rlFPCamera::Update()
         Angle.y = MaximumViewY * DEG2RAD;
 
     // Recalculate camera target considering translation and rotation
-    Vector3 target = Vector3Transform(Vector3{ 0, 0, 1 }, MatrixRotateXYZ(Vector3{ Angle.y, -Angle.x, 0 }));
+    Vector3 target = Vector3Transform(Vector3{ 0, 0, 1 }, MatrixRotateZYX(Vector3{ Angle.y, -Angle.x, 0 }));
 
     ViewCamera.position = CameraPosition;
 
