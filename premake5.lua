@@ -111,6 +111,7 @@ project "rlFPCamera_sample"
 		links {"pthread", "GL", "m", "dl", "rt", "X11"}
 				
 	filter{}
+	
 project "rlTPCamera_sample"
 	kind "ConsoleApp"
 	location "cameras/rlTPCamera/samples"
