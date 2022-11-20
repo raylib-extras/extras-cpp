@@ -274,15 +274,17 @@ void rlFPCamera::Update()
         }
     }
 
+    float yFactor = InvertY ? -1.0f : 1.0f;
+
     if (turnRotation != 0)
         Angle.x -= turnRotation * DEG2RAD;
     else if (UseMouseX && Focused)
         Angle.x += (mousePositionDelta.x / MouseSensitivity);
 
     if (tiltRotation)
-        Angle.y += tiltRotation * DEG2RAD;
+        Angle.y += yFactor * tiltRotation * DEG2RAD;
     else if (UseMouseY && Focused)
-        Angle.y += (mousePositionDelta.y / MouseSensitivity);
+        Angle.y += (yFactor * mousePositionDelta.y / MouseSensitivity);
 
     // Angle clamp
     if (Angle.y < MinimumViewY * DEG2RAD)
