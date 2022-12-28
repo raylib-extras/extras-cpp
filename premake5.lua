@@ -1,66 +1,90 @@
-workspace "extras"
-	configurations { "Debug","Debug.DLL", "Release", "Release.DLL" }
-	platforms { "x64"}
-	defaultplatform "x64"
-	
+
+newoption
+{
+	trigger = "graphics",
+	value = "OPENGL_VERSION",
+	description = "version of OpenGL to build raylib against",
+	allowed = {
+		{ "opengl11", "OpenGL 1.1"},
+		{ "opengl21", "OpenGL 2.1"},
+		{ "opengl33", "OpenGL 3.3"},
+		{ "opengl43", "OpenGL 4.3"}
+	},
+	default = "opengl33"
+}
+
+function define_C()
+	language "C"
+end
+
+function define_Cpp()
+	language "C++"
+end
+
+function string.starts(String,Start)
+	return string.sub(String,1,string.len(Start))==Start
+end
+
+function link_to(lib)
+	links (lib)
+	includedirs ("../"..lib.."/include", "../"..lib.."/" )
+end
+
+function download_progress(total, current)
+	local ratio = current / total;
+	ratio = math.min(math.max(ratio, 0), 1);
+	local percent = math.floor(ratio * 100);
+	print("Download progress (" .. percent .. "%/100%)")
+end
+
+function check_raylib()
+	if(os.isdir("raylib") == false and os.isdir("raylib-master") == false) then
+		if(not os.isfile("raylib-master.zip")) then
+			print("Raylib not found, downloading from github")
+			local result_str, response_code = http.download("https://github.com/raysan5/raylib/archive/refs/heads/master.zip", "raylib-master.zip", {
+				progress = download_progress,
+				headers = { "From: Premake", "Referer: Premake" }
+			})
+		end
+		print("Unzipping to " ..  os.getcwd())
+		zip.extract("raylib-master.zip", os.getcwd())
+		os.remove("raylib-master.zip")
+	end
+end
+
+workspace "raylib-extras-cpp"
+	configurations { "Debug", "Release"}
+	platforms { "x64", "x86"}
+
 	filter "configurations:Debug"
-		defines { "DEBUG" }
-		symbols "On"
-		
-	filter "configurations:Debug.DLL"
 		defines { "DEBUG" }
 		symbols "On"
 
 	filter "configurations:Release"
 		defines { "NDEBUG" }
-		optimize "On"	
-		
-	filter "configurations:Release.DLL"
-		defines { "NDEBUG" }
-		optimize "On"	
-		
+		optimize "On"
+
 	filter { "platforms:x64" }
 		architecture "x86_64"
-		
-	targetdir "bin/%{cfg.buildcfg}/"
-		
-project "raylib"
-	filter "configurations:Debug.DLL OR Release.DLL"
-		kind "SharedLib"
-		defines {"BUILD_LIBTYPE_SHARED"}
-		
-	filter "configurations:Debug OR Release"
-		kind "StaticLib"
-		
-	filter "action:vs*"
-		defines{"_WINSOCK_DEPRECATED_NO_WARNINGS", "_CRT_SECURE_NO_WARNINGS", "_WIN32"}
-		links {"winmm"}
-				
-	filter "action:gmake*"
-		links {"pthread", "GL", "m", "dl", "rt", "X11"}
-				
-	filter{}
+
+	filter {}
+
+	targetdir "_bin/%{cfg.buildcfg}/"
 	
-	location "build"
-	language "C"
-	targetdir "bin/%{cfg.buildcfg}"
+	startproject('rlFPCamera_sample')
 	
-	includedirs { "raylib/src", "raylib/src/external/glfw/include"}
-	vpaths 
-	{
-		["Header Files"] = { "raylib/src/**.h"},
-		["Source Files/*"] = {"raylib/src/**.c"},
-	}
-	files {"raylib/src/*.h", "raylib/src/*.c"}
+	cdialect "C99"
+	cppdialect "C++11"
+	check_raylib();
 	
-	defines{"PLATFORM_DESKTOP", "GRAPHICS_API_OPENGL_33"}
+	include ("raylib_premake5.lua")
 
 project "rlFPCamera"
 	kind "StaticLib"
 	
-	location "build"
+	location "_build"
+	targetdir "_bin/%{cfg.buildcfg}"
 	language "C++"
-	targetdir "bin/%{cfg.buildcfg}"
 	
 	includedirs { "raylib/src"}
 	vpaths 
@@ -69,13 +93,14 @@ project "rlFPCamera"
 		["Source Files"] = {"cameras/rlFPCamera/*.cpp"},
 	}
 	files {"cameras/rlFPCamera/*.cpp","cameras/rlFPCamera/*.h"}
+	include_raylib();
 
 project "rlTPCamera"
 	kind "StaticLib"
 	
-	location "build"
+	location "_build"
+	targetdir "_bin/%{cfg.buildcfg}"
 	language "C++"
-	targetdir "bin/%{cfg.buildcfg}"
 	
 	includedirs { "raylib/src"}
 	vpaths 
@@ -84,13 +109,15 @@ project "rlTPCamera"
 		["Source Files"] = {"cameras/rlTPCamera/*.cpp"},
 	}
 	files {"cameras/rlTPCamera/*.cpp","cameras/rlTPCamera/*.h"}
-
+	include_raylib();
+	
 group "Examples"
 project "rlFPCamera_sample"
 	kind "ConsoleApp"
-	location "cameras/rlFPCamera/samples"
+	location "_build"
+	targetdir "_bin/%{cfg.buildcfg}"
 	language "C++"
-	targetdir "bin/%{cfg.buildcfg}"
+
 	
 	vpaths 
 	{
@@ -103,20 +130,13 @@ project "rlFPCamera_sample"
 	
 	includedirs {"./", "raylib/src", "cameras/rlFPCamera" }
 	
-	filter "action:vs*"
-		defines{"_WINSOCK_DEPRECATED_NO_WARNINGS", "_CRT_SECURE_NO_WARNINGS", "_WIN32"}
-		links {"winmm"}
-		
-	filter "action:gmake*"
-		links {"pthread", "GL", "m", "dl", "rt", "X11"}
-				
-	filter{}
+	link_raylib();
 	
 project "rlTPCamera_sample"
 	kind "ConsoleApp"
-	location "cameras/rlTPCamera/samples"
+	location "_build"
+	targetdir "_bin/%{cfg.buildcfg}"
 	language "C++"
-	targetdir "bin/%{cfg.buildcfg}"
 	
 	vpaths 
 	{
@@ -129,11 +149,4 @@ project "rlTPCamera_sample"
 	
 	includedirs {"./", "raylib/src", "cameras/rlTPCamera" }
 	
-	filter "action:vs*"
-		defines{"_WINSOCK_DEPRECATED_NO_WARNINGS", "_CRT_SECURE_NO_WARNINGS", "_WIN32"}
-		links {"winmm"}
-		
-	filter "action:gmake*"
-		links {"pthread", "GL", "m", "dl", "rt", "X11"}
-				
-	filter{}
+	link_raylib();

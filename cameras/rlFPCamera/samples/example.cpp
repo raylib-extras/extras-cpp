@@ -50,6 +50,15 @@ int main(int argc, char* argv[])
 
 	cam.FarPlane = 5000;
 
+	Mesh cube = GenMeshCube(1, 1, 1);
+	Material greenMaterial = LoadMaterialDefault();
+	greenMaterial.maps[MATERIAL_MAP_ALBEDO].color = GREEN;
+	greenMaterial.maps[MATERIAL_MAP_ALBEDO].texture = tx;
+
+	Material brownMaterial = LoadMaterialDefault();
+	brownMaterial.maps[MATERIAL_MAP_ALBEDO].color = BROWN;
+	brownMaterial.maps[MATERIAL_MAP_ALBEDO].texture = tx;
+
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key
 	{
@@ -72,13 +81,13 @@ int main(int argc, char* argv[])
 		{
 			for (float z = -count * spacing; z <= count * spacing; z += spacing)
 			{
-				Vector3 pos = { x, 0.5f, z };
 
-				Vector3 min = { x - 0.5f,0,z - 0.5f };
-				Vector3 max = { x + 0.5f,1,z + 0.5f };
+				Matrix transform = MatrixTranslate(x, 1.5f, z);
+				DrawMesh(cube, greenMaterial, transform);
 
-				DrawCubeTexture(tx, Vector3{ x, 1.5f, z }, 1, 1, 1, GREEN);
-				DrawCubeTexture(tx, Vector3{ x, 0.5f, z }, 0.25f, 1, 0.25f, BROWN);
+				transform = MatrixTranslate(x, 0.5f, z);
+				transform = MatrixMultiply(MatrixScale(0.25, 1, 0.25), transform);
+				DrawMesh(cube, brownMaterial, transform);
 			}
 		}
 
@@ -90,7 +99,7 @@ int main(int argc, char* argv[])
 		EndDrawing();
 		//----------------------------------------------------------------------------------
 	}
-
+	UnloadMesh(cube);
 	UnloadTexture(tx);
 	// De-Initialization
 	//--------------------------------------------------------------------------------------   
