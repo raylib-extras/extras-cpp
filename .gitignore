@@ -361,3 +361,5 @@ MigrationBackup/
 /extras.sln
 /premake5.exe
 Catalog
+_build
+raylib-master

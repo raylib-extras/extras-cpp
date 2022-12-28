@@ -3,9 +3,8 @@
 Useful comonents for use the [Raylib](https://www.raylib.com/) library (C++ language version). 
 
 # Building
-raylib-extras is setup to use premake to generate static libraries and examples for Visual Studio 2019. Premake can also be used to generate makefiles for linux. Each of the extras can be used as a static library, or by direclty including the files into your game project.
-
-If you wish to use premake, you will need to download the Premake5 executable for your platform from. https://premake.github.io/download
+raylib-extras is setup to use premake to generate static libraries and examples for Visual Studio 2022 and makefiles for gcc on linux/mac OS and mingw on windows. 
+The system is based on game-premake and will download raylib for you. Please see https://github.com/raylib-extras/game-premake for more info.
 
 # Components
 raylib-extras is broken up into modular components. Most components are designed to be used standalone.
@@ -26,9 +25,6 @@ See cameras/rlFPCamera/samples/example.cpp for a simple use case.
 This is a third person camera. It uses the traditional mouse and WASD keys for movement. It follows a target position and lets the user rotate around that as it moves.
 See cameras/rlTPCamera/samples/example.cpp for a simple use case.
 ![tpCamera](https://user-images.githubusercontent.com/322174/136641801-3f7f0a05-e79a-4f67-b05a-217e183eedde.gif)
-
-### rlFreeCamera
-TODO
 
 # Other langauges
 raylib-extras is broken up into seperate repositories per language.
