@@ -81,7 +81,6 @@ int main(int argc, char* argv[])
 		{
 			for (float z = -count * spacing; z <= count * spacing; z += spacing)
 			{
-
 				Matrix transform = MatrixTranslate(x, 1.5f, z);
 				DrawMesh(cube, greenMaterial, transform);
 
