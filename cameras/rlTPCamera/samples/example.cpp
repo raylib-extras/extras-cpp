@@ -81,7 +81,8 @@ int main(int argc, char* argv[])
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
-
+    UnloadTexture(tx);
+    UnloadMesh(cube);
     // De-Initialization
     //--------------------------------------------------------------------------------------   
     CloseWindow();        // Close window and OpenGL context

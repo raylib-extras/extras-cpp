@@ -75,7 +75,7 @@ workspace "raylib-extras-cpp"
 	
 	cdialect "C99"
 	cppdialect "C++11"
-	check_raylib();
+	check_raylib()
 	
 	include ("raylib_premake5.lua")
 
@@ -93,7 +93,7 @@ project "rlFPCamera"
 		["Source Files"] = {"cameras/rlFPCamera/*.cpp"},
 	}
 	files {"cameras/rlFPCamera/*.cpp","cameras/rlFPCamera/*.h"}
-	include_raylib();
+	include_raylib()
 
 project "rlTPCamera"
 	kind "StaticLib"
@@ -109,7 +109,7 @@ project "rlTPCamera"
 		["Source Files"] = {"cameras/rlTPCamera/*.cpp"},
 	}
 	files {"cameras/rlTPCamera/*.cpp","cameras/rlTPCamera/*.h"}
-	include_raylib();
+	include_raylib()
 	
 group "Examples"
 project "rlFPCamera_sample"
@@ -118,7 +118,6 @@ project "rlFPCamera_sample"
 	targetdir "_bin/%{cfg.buildcfg}"
 	language "C++"
 
-	
 	vpaths 
 	{
 		["Header Files"] = { "cameras/rlFPCamera/samples/*.h"},
@@ -126,11 +125,11 @@ project "rlFPCamera_sample"
 	}
 	files {"cameras/rlFPCamera/samples/*.cpp"}
 
-	links {"raylib", "rlFPCamera"}
+	links {"rlFPCamera"}
 	
-	includedirs {"./", "raylib/src", "cameras/rlFPCamera" }
+	includedirs {"./", "cameras/rlFPCamera" }
 	
-	link_raylib();
+	link_raylib()
 	
 project "rlTPCamera_sample"
 	kind "ConsoleApp"
@@ -145,8 +144,8 @@ project "rlTPCamera_sample"
 	}
 	files {"cameras/rlTPCamera/samples/*.cpp"}
 
-	links {"raylib", "rlTPCamera"}
+	links {"rlTPCamera"}
 	
-	includedirs {"./", "raylib/src", "cameras/rlTPCamera" }
+	includedirs {"./", "cameras/rlTPCamera" }
 	
-	link_raylib();
+	link_raylib()
