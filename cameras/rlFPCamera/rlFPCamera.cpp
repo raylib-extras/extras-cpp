@@ -245,8 +245,8 @@ void rlFPCamera::Update()
         ValidateCamPosition(*this, CameraPosition, oldPosition);
 
     // Camera orientation calculation
-    float turnRotation = GetSpeedForAxis(TURN_RIGHT, TurnSpeed.x) - GetSpeedForAxis(TURN_LEFT, TurnSpeed.x);
-    float tiltRotation = GetSpeedForAxis(TURN_UP, TurnSpeed.y) - GetSpeedForAxis(TURN_DOWN, TurnSpeed.y);
+    float turnRotation = GetSpeedForAxis(TURN_LEFT, TurnSpeed.x) - GetSpeedForAxis(TURN_RIGHT, TurnSpeed.x);
+    float tiltRotation = GetSpeedForAxis(TURN_DOWN, TurnSpeed.y) - GetSpeedForAxis(TURN_UP, TurnSpeed.y);
 
     if (UseController && IsGamepadAvailable(ControlerID))
     {
