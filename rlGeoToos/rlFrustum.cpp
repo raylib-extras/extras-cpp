@@ -29,7 +29,7 @@
 **********************************************************************************************/
 
 #include <cmath>
-#include "RLFrustum.h"
+#include "rlFrustum.h"
 #include "rlgl.h"
 
 void NormalizePlane(Vector4& plane)
