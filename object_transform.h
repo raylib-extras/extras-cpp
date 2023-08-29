@@ -1,10 +1,10 @@
 /**********************************************************************************************
 *
-*   transforms.h * a sample object transfrom class
+*   object_transform.h * a sample 3d object transfrom class
 *
 *   LICENSE: ZLIB
 *
-*   Copyright (c) 2022 Jeffery Myers
+*   Copyright (c) 2023 Jeffery Myers
 *
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software and associated documentation files (the "Software"), to deal
@@ -55,7 +55,9 @@ public:
     {
         if (faceY)
             Orientation = QuaternionFromAxisAngle(Vector3{0,1,0}, 0);
-    }
+    } 
+
+    virtual ~ObjectTransform() = default;
 
     inline ObjectTransform* GetParent() const { return Parent; }
 
@@ -306,6 +308,13 @@ public:
         SetDirty();
         auto rot = QuaternionFromEuler(0, 0, -angle * DEG2RAD);
         Orientation = QuaternionMultiply(rot, Orientation);
+    }
+
+    inline void SetCamera(Camera3D& camera)
+    {
+        camera.position = Vector3Transform(Vector3Zero(), GetWorldMatrix());
+        camera.target = Vector3Transform(Vector3{0,0,1}, GetWorldMatrix());
+        camera.up = Vector3Subtract(Vector3Transform(Vector3{ 0,1,0 }, GetWorldMatrix()), camera.target);
     }
 
     inline void PushMatrix()
