@@ -1,12 +1,12 @@
 /**********************************************************************************************
 *
-*   raylib-extras * Utilities and Shared Components for Raylib
+*   raylib-extras-cpp * Utilities and Shared Components for Raylib
 *
-*   icon_tools.h * Helper for setting up a window icon
+*   rlgl-namespace.h * Simple wrapper to put rlgl in a namespace
 *
-*   LICENSE: ZLiB
+*   LICENSE: MIT
 *
-*   Copyright (c) 2020 Jeffery Myers
+*   Copyright (c) 2021-2023 Jeffery Myers, Peter Damianov
 *
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software and associated documentation files (the "Software"), to deal
@@ -27,21 +27,34 @@
 *   SOFTWARE.
 *
 **********************************************************************************************/
-
 #pragma once
 
-#include "raylib.h"
-
-inline void SetupWindowIcon(const char* file)
+// declare the raylib types that rlgl needs, if they haven't been declared yet
+// they must be in the rl namespace, in order for the types to be compatible 
+// if they weren't defined like this, a function taking an rl::Matrix wouldn't
+// be able to accept an rlgl::Matrix
+namespace rl
 {
-	if (!file)
-		return;
 
-	Image icon = LoadImage(file);
-	if (!icon.data)
-		return;
+#if !defined(RL_MATRIX_TYPE)
+// Matrix, 4x4 components, column major, OpenGL style, right handed
+typedef struct Matrix {
+    float m0, m4, m8, m12;      // Matrix first row (4 components)
+    float m1, m5, m9, m13;      // Matrix second row (4 components)
+    float m2, m6, m10, m14;     // Matrix third row (4 components)
+    float m3, m7, m11, m15;     // Matrix fourth row (4 components)
+} Matrix;
+#define RL_MATRIX_TYPE
+#endif
 
-	ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
-	SetWindowIcon(icon);
-	UnloadImage(icon);
+}
+
+// rlgl includes:
+#include <cstdlib>
+#include <cstring>
+#include <cmath>
+namespace rlgl
+{
+	using rl::Matrix;
+	#include "rlgl.h"
 }
