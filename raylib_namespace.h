@@ -2,11 +2,11 @@
 *
 *   raylib-extras-cpp * Utilities and Shared Components for Raylib
 *
-*   raylib-namespace.h * Simple wrapper to put raylib in a namespace to help prevent compile colissions
+*   raylib-namespace.h * Simple wrapper to put raylib in a namespace
 *
 *   LICENSE: MIT
 *
-*   Copyright (c) 2021 Jeffery Myers
+*   Copyright (c) 2021-2023 Jeffrey Myers, Peter Damianov
 *
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software and associated documentation files (the "Software"), to deal
@@ -28,39 +28,59 @@
 *
 **********************************************************************************************/
 
-#include <cmath>
+// raylib includes:
 #include <cstdarg>
 namespace rl
 {
 	#include "raylib.h"
-	#include "raymath.h"
-	#include "rlgl.h"
-	
-	constexpr Color  LightGray = { 200, 200, 200, 255 };
-    constexpr Color  Gray = { 128, 128, 128, 255 };
-    constexpr Color  DarkGray{ 80, 80, 80, 255 };
-    constexpr Color  Yellow{ 253, 249, 0, 255 };
-    constexpr Color  Gold{ 255, 203, 0, 255 };
-    constexpr Color  Orange{ 255, 161, 0, 255 };
-    constexpr Color  Pink{ 255, 109, 194, 255 };
-    constexpr Color  Red{ 230, 41, 55, 255 };
-    constexpr Color  Maroon{ 190, 33, 55, 255 };
-    constexpr Color  Green{ 0, 228, 48, 255 };
-    constexpr Color  Lime{ 0, 158, 47, 255 };
-    constexpr Color  DarkGreen{ 0, 117, 44, 255 };
-    constexpr Color  SkyBlue{ 102, 191, 255, 255 };
-    constexpr Color  Blue{ 0, 121, 241, 255 };
-    constexpr Color  DarkBlue{ 0, 82, 172, 255 };
-    constexpr Color  Purple{ 200, 122, 255, 255 };
-    constexpr Color  Violet{ 135, 60, 190, 255 };
-    constexpr Color  DarkPurple{ 112, 31, 126, 255 };
-    constexpr Color  Beige{ 211, 176, 131, 255 };
-    constexpr Color  Brown{ 127, 106, 79, 255 };
-    constexpr Color  DarkBrown{ 76, 63, 47, 255 };
 
-    constexpr Color  White{ 255, 255, 255, 255 };
-    constexpr Color  Black{ 0, 0, 0, 255 };
-    constexpr Color  Blank{ 0, 0, 0, 0 };
-    constexpr Color  Magenta{ 255, 0, 255, 255 };
-    constexpr Color  RayWhite{ 245, 245, 245, 255 };
+	constexpr Color LightGray { 200, 200, 200, 255 };
+	constexpr Color Gray { 128, 128, 128, 255 };
+	constexpr Color DarkGray { 80, 80, 80, 255 };
+	constexpr Color Yellow { 253, 249, 0, 255 };
+	constexpr Color Gold { 255, 203, 0, 255 };
+	constexpr Color Orange { 255, 161, 0, 255 };
+	constexpr Color Pink { 255, 109, 194, 255 };
+	constexpr Color Red { 230, 41, 55, 255 };
+	constexpr Color Maroon { 190, 33, 55, 255 };
+	constexpr Color Green { 0, 228, 48, 255 };
+	constexpr Color Lime { 0, 158, 47, 255 };
+	constexpr Color DarkGreen { 0, 117, 44, 255 };
+	constexpr Color SkyBlue { 102, 191, 255, 255 };
+	constexpr Color Blue { 0, 121, 241, 255 };
+	constexpr Color DarkBlue { 0, 82, 172, 255 };
+	constexpr Color Purple { 200, 122, 255, 255 };
+	constexpr Color Violet { 135, 60, 190, 255 };
+	constexpr Color DarkPurple { 112, 31, 126, 255 };
+	constexpr Color Beige { 211, 176, 131, 255 };
+	constexpr Color Brown { 127, 106, 79, 255 };
+	constexpr Color DarkBrown { 76, 63, 47, 255 };
+
+	constexpr Color White { 255, 255, 255, 255 };
+	constexpr Color Black { 0, 0, 0, 255 };
+	constexpr Color Blank { 0, 0, 0, 0 };
+	constexpr Color Magenta { 255, 0, 255, 255 };
+	constexpr Color RayWhite { 245, 245, 245, 255 };
+}
+
+
+// raymath includes:
+#include <cmath>
+namespace rm
+{
+	using rl::Vector2;
+	using rl::Vector3;
+	using rl::Quaternion;
+	using rl::Matrix;
+	#include "raymath.h"
+}
+
+// rlgl includes:
+#include <cstdlib>
+#include <cstring>
+#include <cmath>
+namespace rlgl
+{
+	using rl::Matrix;
+	#include "rlgl.h"
 }
