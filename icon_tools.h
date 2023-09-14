@@ -1,6 +1,6 @@
 /**********************************************************************************************
 *
-*   raylib-extrss * Utilities and Shared Components for Raylib
+*   raylib-extras * Utilities and Shared Components for Raylib
 *
 *   icon_tools.h * Helper for setting up a window icon
 *
