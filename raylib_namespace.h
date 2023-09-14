@@ -62,4 +62,32 @@ namespace rl
 	constexpr Color Blank { 0, 0, 0, 0 };
 	constexpr Color Magenta { 255, 0, 255, 255 };
 	constexpr Color RayWhite { 245, 245, 245, 255 };
+
+	#undef LIGHTGRAY
+	#undef GRAY
+	#undef DARKGRAY
+	#undef YELLOW
+	#undef GOLD
+	#undef ORANGE
+	#undef PINK
+	#undef RED
+	#undef MAROON
+	#undef GREEN
+	#undef LIME
+	#undef DARKGREEN
+	#undef SKYBLUE
+	#undef BLUE
+	#undef DARKBLUE
+	#undef PURPLE
+	#undef VIOLET
+	#undef DARKPURPLE
+	#undef BEIGE
+	#undef BROWN
+	#undef DARKBROWN
+
+	#undef WHITE
+	#undef BLACK
+	#undef BLANK
+	#undef MAGENTA
+	#undef RAYWHITE
 }
