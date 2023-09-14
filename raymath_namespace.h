@@ -35,6 +35,7 @@
 // be able to accept an rm::Vector2
 namespace rl
 {
+
 #if !defined(RL_MATRIX_TYPE)
 // Matrix, 4x4 components, column major, OpenGL style, right handed
 typedef struct Matrix {
@@ -45,9 +46,7 @@ typedef struct Matrix {
 } Matrix;
 #define RL_MATRIX_TYPE
 #endif
-}
-namespace rl
-{
+
 #if !defined(RL_VECTOR2_TYPE)
 // Vector2 type
 typedef struct Vector2 {
@@ -94,6 +93,7 @@ typedef struct Matrix {
 } Matrix;
 #define RL_MATRIX_TYPE
 #endif
+
 }
 
 
