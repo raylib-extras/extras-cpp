@@ -180,6 +180,14 @@ public:
         SetDirty();
     }
 
+    inline void MovePosition(float x, float y, float z)
+    {
+        Position.x += x;
+        Position.y += y;
+        Position.z += z;
+        SetDirty();
+    }
+
     inline void SetPosition(const Vector3& pos)
     {
         Position = pos;
@@ -249,7 +257,6 @@ public:
         return Vector3Transform(inPos, MatrixInvert(GetWorldMatrix()));
     }
 
-
     inline void MoveV(float distance)
     {
         SetDirty();
@@ -268,24 +275,10 @@ public:
         Position = Vector3Add(Position, Vector3Scale(GetHNegVector(), distance));
     }
 
-    inline void RotateV(float angle)
+    inline void RotateY(float angle)
     {
         SetDirty();
         auto rot = QuaternionFromEuler(0, -angle * DEG2RAD, 0);
-        Orientation = QuaternionMultiply(Orientation, rot);
-    }
-
-    inline void RotateH(float angle)
-    {
-        SetDirty();
-        auto rot = QuaternionFromEuler(angle * DEG2RAD, 0, 0);
-        Orientation = QuaternionMultiply(Orientation, rot);
-    }
-
-    inline void RotateD(float angle)
-    {
-        SetDirty();
-        auto rot = QuaternionFromEuler(0, 0, -angle * DEG2RAD);
         Orientation = QuaternionMultiply(Orientation, rot);
     }
 
@@ -293,17 +286,31 @@ public:
     {
         SetDirty();
         auto rot = QuaternionFromEuler(angle * DEG2RAD, 0, 0);
+        Orientation = QuaternionMultiply(Orientation, rot);
+    }
+
+    inline void RotateZ(float angle)
+    {
+        SetDirty();
+        auto rot = QuaternionFromEuler(0, 0, -angle * DEG2RAD);
+        Orientation = QuaternionMultiply(Orientation, rot);
+    }
+
+    inline void RotateH(float angle)
+    {
+        SetDirty();
+        auto rot = QuaternionFromEuler(angle * DEG2RAD, 0, 0);
         Orientation = QuaternionMultiply(rot, Orientation);
     }
 
-    inline void RotateY(float angle)
+    inline void RotateV(float angle)
     {
         SetDirty();
         auto rot = QuaternionFromEuler(0, -angle * DEG2RAD, 0);
         Orientation = QuaternionMultiply(rot, Orientation);
     }
 
-    inline void RotateZ(float angle)
+    inline void RotateD(float angle)
     {
         SetDirty();
         auto rot = QuaternionFromEuler(0, 0, -angle * DEG2RAD);
