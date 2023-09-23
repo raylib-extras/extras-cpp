@@ -157,20 +157,13 @@ public:
 
     inline Vector3 GetWorldPosition()
     {
-        Matrix worldTransform = GetWorldMatrix();
-        return Vector3Transform(Vector3Zero(), WorldMatrix);
+        return Vector3Transform(Vector3Zero(), GetWorldMatrix());
     }
 
-    inline Vector3 GetWorldTarget()
-    {
-        Matrix worldTransform = GetWorldMatrix();
-        Vector3 pos = Vector3Transform(Vector3Zero(), WorldMatrix);
-
-        Matrix translateMatrix = MatrixTranslate(Position.x, Position.y, Position.z);
-        Matrix orientationMatrix = MatrixMultiply(worldTransform, translateMatrix);
-
-        return Vector3Add(pos, Vector3Transform(Vector3{ 0 , 1 , 0 }, WorldMatrix));
-    }
+	inline Vector3 GetWorldTargetPoint()
+	{
+        return Vector3Transform(Vector3{ 0,1,0 }, GetWorldMatrix());
+	}
 
     inline void SetPosition(float x, float y, float z)
     {
@@ -320,8 +313,8 @@ public:
     inline void SetCamera(Camera3D& camera)
     {
         camera.position = Vector3Transform(Vector3Zero(), GetWorldMatrix());
-        camera.target = Vector3Transform(Vector3{0,0,1}, GetWorldMatrix());
-        camera.up = Vector3Subtract(Vector3Transform(Vector3{ 0,1,0 }, GetWorldMatrix()), camera.target);
+        camera.target = Vector3Transform(Vector3{0,0,1}, WorldMatrix);
+        camera.up = Vector3Subtract(Vector3Transform(Vector3{ 0,1,0 }, WorldMatrix), camera.target);
     }
 
     inline void PushMatrix()
