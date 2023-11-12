@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
     Sprite baseSprite = Sprite::Load("resources/scarfy.sprite");
 
     SpriteInstance sprite(baseSprite);
-    sprite.SetAimation("idle");
+    sprite.SetAnimation("idle");
     sprite.Direction = DIRECTION_LEFT;
 
     sprite.OriginX = OriginLocations::Center;
@@ -97,7 +97,7 @@ int main(int argc, char* argv[])
             sprite.Position.x += speed * sprite.Speed;
         }
 
-        sprite.SetAimation(moving ? "walk" : "idle");
+        sprite.SetAnimation(moving ? "walk" : "idle");
 
         sprite.Update();
         if (sprite.TriggerFrameName == "step")
