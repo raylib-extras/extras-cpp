@@ -150,7 +150,7 @@ namespace RLSprites
 
         SpriteInstance(Sprite& sprite, Color tint = WHITE) { Layers.push_back(Layer{ &sprite,tint }); }
 
-        void SetAimation(const std::string& name);
+        void SetAnimation(const std::string& name);
 
         void Update();
         void Render();

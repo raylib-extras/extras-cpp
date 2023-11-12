@@ -411,7 +411,7 @@ namespace RLSprites
         return sprite;
     }
 
-    void SpriteInstance::SetAimation(const std::string& name)
+    void SpriteInstance::SetAnimation(const std::string& name)
     {
         if (Layers.empty() || (CurrentAnimation != nullptr && CurrentAnimation->Name == name))
             return;
