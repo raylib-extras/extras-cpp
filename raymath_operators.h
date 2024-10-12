@@ -72,9 +72,9 @@ inline Vector2 operator/ (Vector2 lhs, const Vector2& rhs)
 	return Vector2{ lhs.x / rhs.y, lhs.y / rhs.y };
 }
 
-static constexpr Vector2 Vector2Zero = { 0,0 };
-static constexpr Vector2 Vector2X = { 1,0 };
-static constexpr Vector2 Vector2Y = { 0,1 };
+static constexpr Vector2 Vector2Zeros = { 0,0 };
+static constexpr Vector2 Vector2UnitX = { 1,0 };
+static constexpr Vector2 Vector2UnitY = { 0,1 };
 
 //------------------Vector3-----------------//
 inline Vector3 operator+ (Vector3 lhs, const Vector3& rhs)
@@ -117,7 +117,7 @@ inline Vector3 operator/ (Vector3 lhs, const Vector3& rhs)
 	return Vector3{ lhs.x / rhs.y, lhs.y / rhs.y, lhs.z / rhs.z };
 }
 
-static constexpr Vector3 Vector3Zero = { 0, 0, 0 };
-static constexpr Vector3 Vector3X = { 1, 0, 0 };
-static constexpr Vector3 Vector3Y = { 0, 1, 0 };
-static constexpr Vector3 Vector3Z = { 0, 0, 1 };
+static constexpr Vector3 Vector3Zeros = { 0, 0, 0 };
+static constexpr Vector3 Vector3UnitX = { 1, 0, 0 };
+static constexpr Vector3 Vector3UnitY = { 0, 1, 0 };
+static constexpr Vector3 Vector3UnitZ = { 0, 0, 1 };
