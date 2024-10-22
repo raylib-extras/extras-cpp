@@ -3,6 +3,7 @@
 *   raylib-extrss * Utilities and Shared Components for Raylib
 *
 *   raymath_operators.h * CPP operator overloads for raymath methods
+*   DO NOT USE THIS FILE WITH 5.5 DEV, it allready has operators built in
 *
 *   LICENSE: ZLiB
 *
